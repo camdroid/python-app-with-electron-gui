@@ -1,8 +1,14 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import sys
+from StreamDeck.DeviceManager import DeviceManager
 
 city = sys.argv[1]
+
+def init_streamdeck():
+    deck = DeviceManager().enumerate()[0]
+    deck.open()
+    deck.reset()
 
 
 def get_weather(place):
@@ -13,5 +19,6 @@ def get_weather(place):
     weather = soup.findAll("span", {"class": "phrase"})[0].text
     return weather
 
+init_streamdeck()
 print(get_weather(city))
 sys.stdout.flush()
